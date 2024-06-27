@@ -7,6 +7,8 @@ const userSchema: Schema = new Schema({
     password: { type: String, required: true },
     avatar: { type: String },
     boards: [{ type: Schema.Types.ObjectId, ref: 'Board' }]
+}, {
+    versionKey: false, timestamps: true
 });
 
 export default mongoose.model<IUser>('User', userSchema);

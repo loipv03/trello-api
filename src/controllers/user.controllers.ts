@@ -23,7 +23,5 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             message: "Đăng kí thành công",
             access_token: token
         })
-    } catch (error) {
-        next(error)
-    }
+    } catch (error) { next(error) }
 }

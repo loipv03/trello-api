@@ -1,7 +1,8 @@
 import Joi from 'joi';
 
-export const userValidationSchema = Joi.object({
-    username: Joi.string()
+const userSchema = Joi.object({
+    username: Joi
+        .string()
         .min(3)
         .max(30)
         .required()
@@ -30,6 +31,13 @@ export const userValidationSchema = Joi.object({
             'string.min': 'Mật khẩu phải có ít nhất {#limit} ký tự',
             'any.required': 'Mật khẩu là bắt buộc'
         }),
+    confirmPassword: Joi.string()
+        .valid(Joi.ref('password'))
+        .required()
+        .messages({
+            'any.only': 'Xác nhận mật khẩu phải khớp với mật khẩu đã nhập',
+            'any.required': 'Xác nhận mật khẩu là bắt buộc'
+        }),
     avatar: Joi.string()
         .uri()
         .optional()
@@ -46,3 +54,5 @@ export const userValidationSchema = Joi.object({
             'string.length': 'Board ID phải có độ dài 24 ký tự'
         })
 });
+
+export default userSchema

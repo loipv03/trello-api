@@ -3,11 +3,14 @@ import mongoose from 'mongoose';
 const connectMongooDB = async (uri: string) => {
     try {
         const connection = await mongoose.connect(uri);
-        console.log('Kết nối thành công!');
+
+        mongoose.connection.on('error', (err) => {
+            console.log('Kết nối thất bại!');
+            throw err
+        });
         return connection;
     } catch (err) {
-        console.error('Lỗi kết nối:', err);
-        throw err;
+        console.error(err);
     }
 };
 

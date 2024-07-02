@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import User from '../models/user.model'
+import User from '../../models/user.model'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
-import { IUser } from '../interfaces/user.interface'
+import { IUser } from '../../interfaces/user.interface'
+import generateToken from './token'
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -16,9 +17,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             confirmPassword: undefined
         })
 
-        const token = jwt.sign({ newUser }, process.env.JWT_SECRET as Secret, {
-            expiresIn: "1d",
-        });
+        const token = generateToken(newUser, '15m')
         return res.status(200).json({
             message: "Đăng kí thành công",
             access_token: token

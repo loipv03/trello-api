@@ -36,11 +36,9 @@ export const authenticate = async (req: any, res: Response, next: NextFunction) 
                 if (!user) {
                     return res.status(400).json({
                         success: false,
-                        message: "Không tìm thấy người dùng",
+                        message: "người dùng không tồn tại",
                     });
                 }
-
-                req.user = user;
                 next();
             }
         )

@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const userSchema = Joi.object({
-    username: Joi
+    userName: Joi
         .string()
         .min(3)
         .max(30)
@@ -41,6 +41,7 @@ const userSchema = Joi.object({
     avatar: Joi.string()
         .uri()
         .optional()
+        .allow('')
         .messages({
             'string.base': 'Avatar phải là một chuỗi ký tự',
             'string.uri': 'Avatar phải là một URL hợp lệ'

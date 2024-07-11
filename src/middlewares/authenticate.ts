@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import { IUser } from "../interfaces/user.interface";
-import User from "../models/user.model";
+import { IUser } from "../interfaces/user";
+import User from "../models/user";
 
 export const authenticate = async (req: any, res: Response, next: NextFunction) => {
     try {

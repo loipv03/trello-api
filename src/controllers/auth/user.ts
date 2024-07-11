@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import User from '../../models/user.model'
+import User from '../../models/user'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
-import { IUser } from '../../interfaces/user.interface'
+import { IUser } from '../../interfaces/user'
 import generateToken from './token'
+import { IError } from '../../middlewares/validation'
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {

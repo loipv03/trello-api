@@ -2,8 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import connectMongooDB from './configs/connect'
 import dotenv from 'dotenv'
-import userRouter from './routers/user.router'
-import errorHandler from './middlewares/validation.middleware'
+import userRouter from './routers/user'
+import errorHandler from './middlewares/validation'
 
 dotenv.config()
 

@@ -4,7 +4,7 @@ import { IUser } from '../../interfaces/user'
 import generateToken from '../../utils/token'
 import { IError } from '../../interfaces/error'
 
-export const register = async (req: Request, res: Response, next: NextFunction) => {
+export const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { userName, email, } = req.body as IUser
         const userNameExists = await User.findOne({ userName });
@@ -23,7 +23,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             } as IError)
         }
 
-        const newUser: IUser = await User.create({
+        const newUser = await User.create({
             ...req.body,
             confirmPassword: undefined
         })
@@ -31,6 +31,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         const token = generateToken(newUser.id, '15m')
         const refreshToken = generateToken(newUser.id, '7d')
         return res.status(200).json({
+            status: 200,
             message: "Đăng kí thành công",
             access_token: token,
             refresh_Token: refreshToken

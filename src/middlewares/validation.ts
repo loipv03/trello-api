@@ -8,7 +8,7 @@ const validate = (schema: Joi.ObjectSchema) => {
         const { error }: ValidationResult = schema.validate(req.body, { abortEarly: false });
         if (error) {
             let message: string[] = error.details.map((err: ValidationErrorItem) => err.message)
-            next({
+            return next({
                 status: 400,
                 message
             } as IError);

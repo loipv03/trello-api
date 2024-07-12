@@ -18,6 +18,7 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         const refreshToken = generateToken(String(user?.id), '7d')
 
         return res.status(200).json({
+            status: 200,
             message: "Đăng nhập thành công",
             access_token: token,
             refresh_Token: refreshToken

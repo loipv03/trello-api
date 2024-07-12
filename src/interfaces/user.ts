@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import mongoose, { Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -6,4 +7,8 @@ export interface IUser extends Document {
     password: string;
     avatar?: string;
     boards: mongoose.Types.ObjectId[];
+}
+
+export interface AuthenticatedRequest extends Request {
+    user_id?: string
 }

@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
-import { IUser } from '../../interfaces/user';
+import { AuthenticatedRequest, IUser } from '../../interfaces/user';
 import { IError } from '../../interfaces/error';
 import deleteFile from '../../utils/deleteFile';
 import { bodySchema } from '../../validations/auth'
-
-interface AuthenticatedRequest extends Request {
-    user_id?: string
-}
 
 const uploadAvatar = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {

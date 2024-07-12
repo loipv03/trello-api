@@ -1,14 +1,12 @@
 import express from 'express'
-import { register } from '../controllers/auth/register'
-import validate from '../validations'
+import { register } from '../controllers/auth/signup'
+import { validate } from '../middlewares/validation'
 import userSchema from '../validations/user'
-import upload from '../configs/cloudinary'
 
 const userRouter = express.Router()
 
 userRouter.post(
-    '/register',
-    upload.single('avatar'),
+    '/signup',
     validate(userSchema),
     register)
 

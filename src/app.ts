@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import connectMongooDB from './configs/connect'
 import dotenv from 'dotenv'
-import userRouter from './routers/user'
+import userRouter from './routers/auth'
 import errorHandler from './middlewares/validation'
 
 dotenv.config()

@@ -1,5 +1,4 @@
 import jwt, { Secret } from 'jsonwebtoken'
-import { IUser } from '../interfaces/user'
 
 const generateToken = (id: number | string, time: string) => {
     const token = jwt.sign({ id }, process.env.JWT_SECRET as Secret, {

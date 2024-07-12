@@ -3,7 +3,6 @@ import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
 import generateToken from '../../utils/token'
 import { IError } from '../../interfaces/error'
-import deleteFile from '../../utils/deleteFile'
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -26,7 +25,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
         const newUser: IUser = await User.create({
             ...req.body,
-            avatar: req.file && req.file.path,
             confirmPassword: undefined
         })
 
@@ -38,11 +36,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             refresh_Token: refreshToken
         })
     } catch (error) {
-
-        if (req.file) {
-            deleteFile(req.file.filename)
-        }
-
         next(error)
     }
 }

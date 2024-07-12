@@ -1,9 +1,13 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IUser } from "../interfaces/user";
 import User from "../models/user";
 
-export const authenticate = async (req: any, res: Response, next: NextFunction) => {
+interface AuthenticatedRequest extends Request {
+    user_id?: string
+}
+
+const authenticate = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader) {
@@ -31,7 +35,6 @@ export const authenticate = async (req: any, res: Response, next: NextFunction) 
                         });
                     }
                 }
-
                 const user = (await User.findById(payload?.["user"]?._id)) as IUser;
                 if (!user) {
                     return res.status(400).json({
@@ -39,6 +42,7 @@ export const authenticate = async (req: any, res: Response, next: NextFunction) 
                         message: "người dùng không tồn tại",
                     });
                 }
+                req.user_id = String(user?._id)
                 next();
             }
         )
@@ -47,3 +51,5 @@ export const authenticate = async (req: any, res: Response, next: NextFunction) 
         res.status(401).json({ message: error.message });
     }
 };
+
+export default authenticate

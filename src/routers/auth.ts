@@ -5,6 +5,7 @@ import { siginupSchema, signinSchema } from '../validations/auth'
 import { signin } from '../controllers/auth/signin'
 import upload from '../configs/cloudinary'
 import uploadAvatar from '../controllers/auth/uploadAvatar'
+import authenticate from '../middlewares/authenticate'
 
 const userRouter = express.Router()
 
@@ -18,6 +19,6 @@ userRouter.post(
     validate(signinSchema),
     signin)
 
-userRouter.post('/update_avatar/:id', upload.single('avatar'), uploadAvatar)
+userRouter.post('/update_avatar', authenticate, upload.single('avatar'), uploadAvatar)
 
 export default userRouter

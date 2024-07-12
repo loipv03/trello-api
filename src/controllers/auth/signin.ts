@@ -14,8 +14,8 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         const isMatch = await bcrypt.compare(password, String(user?.password))
         !isMatch && next({ status: 401, message: "Mật khẩu không đúng" } as IError)
 
-        const token = generateToken(String(user?.id), '15m')
-        const refreshToken = generateToken(String(user?.id), '7d')
+        const token = generateToken(String(user?._id), '15m')
+        const refreshToken = generateToken(String(user?._id), '7d')
 
         return res.status(200).json({
             status: 200,

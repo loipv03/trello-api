@@ -3,6 +3,7 @@ import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
 import generateToken from '../../utils/token'
 import { IError } from '../../interfaces/error'
+import Workspace from '../../models/workspace'
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -23,10 +24,22 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
             } as IError)
         }
 
-        await User.create({
+        const newUser = await User.create({
             ...req.body,
             confirmPassword: undefined
         })
+
+        await Workspace.create({
+            name: `${userName}'s Workspace`,
+            description: `Default workspace for ${userName}`,
+            visibility: 'private',
+            members: [
+                {
+                    userId: newUser._id,
+                    role: 'admin',
+                },
+            ],
+        });
 
         return res.status(200).json({
             status: 200,

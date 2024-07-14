@@ -7,7 +7,12 @@ const userSchema: Schema = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     avatar: { type: String },
-    boards: [{ type: Schema.Types.ObjectId, ref: 'Board' }]
+    isActive: {
+        type: Boolean, default: false
+    },
+    activationCode: {
+        type: String, required: true
+    }
 }, {
     versionKey: false, timestamps: true
 });

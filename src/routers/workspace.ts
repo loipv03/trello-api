@@ -1,5 +1,5 @@
 import express from 'express'
-import { validate } from '../middlewares/validation'
+import validate from '../utils/errorUtils'
 import authenticate from '../middlewares/authenticate'
 import { workspaceSchema } from '../validations/workspace'
 import createWorkspace from '../controllers/workspaces/createWorkspace'

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
 import { AuthenticatedRequest, IUser } from '../../interfaces/user';
 import { IError } from '../../interfaces/error';
-import deleteFile from '../../utils/deleteFile';
+import deleteFile from '../../utils/cloudinaryUtils';
 import { bodySchema } from '../../validations/auth'
 
 const uploadAvatar = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {

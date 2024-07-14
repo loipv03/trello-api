@@ -19,9 +19,7 @@ const siginupSchema = Joi.object({
         .uri()
         .optional()
         .allow(''),
-    boards: Joi.array()
-        .items(Joi.string())
-        .optional()
+    isActive: Joi.boolean().default(false),
 });
 
 const signinSchema = Joi.object({

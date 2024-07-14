@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
-import generateToken from '../../utils/token'
 import { IError } from '../../interfaces/error'
 import Workspace from '../../models/workspace'
+import jwt from 'jsonwebtoken'
+import { sendActivationEmail } from '../../configs/email.ts'
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { userName, email, } = req.body as IUser
+
         const userNameExists = await User.findOne({ userName });
         if (userNameExists) {
             return next({
@@ -24,27 +26,21 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
             } as IError)
         }
 
+        const activationCode = jwt.sign({ email }, process.env.JWT_SECRET as string);
+
         const newUser = await User.create({
             ...req.body,
-            confirmPassword: undefined
+            confirmPassword: undefined,
+            activationCode
         })
 
-        await Workspace.create({
-            name: `${userName}'s Workspace`,
-            description: `Default workspace for ${userName}`,
-            visibility: 'private',
-            members: [
-                {
-                    userId: newUser._id,
-                    role: 'admin',
-                },
-            ],
-        });
+        await sendActivationEmail(email, activationCode);
 
         return res.status(200).json({
             status: 200,
-            message: "Đăng kí thành công",
-        })
+            message: "Đăng kí thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
+            newUser
+        });
     } catch (error) {
         next(error)
     }

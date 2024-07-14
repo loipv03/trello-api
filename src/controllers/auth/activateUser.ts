@@ -6,7 +6,7 @@ import { IError } from '../../interfaces/error';
 export const activateUser = async (req: Request, res: Response, next: NextFunction) => {
     const { activationCode } = req.params;
     try {
-        const decoded: any = jwt.verify(activationCode, process.env.JWT_SECRET as string);
+        const decoded = jwt.verify(activationCode, process.env.JWT_SECRET as string) as { email: string }
 
         const existingUser = await User.findOne({ email: decoded.email });
         if (existingUser && existingUser.isActive) {

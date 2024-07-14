@@ -6,7 +6,8 @@ export interface IUser extends Document {
     email: string;
     password: string;
     avatar?: string;
-    boards: mongoose.Types.ObjectId[];
+    isActive: boolean
+    activationCode: string
 }
 
 export interface AuthenticatedRequest extends Request {

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
-import generateToken from '../../utils/token'
+import generateToken from '../../utils/jwtUtils'
 import { IError } from '../../interfaces/error'
 import bcrypt from 'bcryptjs'
 

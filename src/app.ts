@@ -5,7 +5,6 @@ import dotenv from 'dotenv'
 import userRouter from './routers/auth'
 import workspaceRouter from './routers/workspace'
 import errorHandler from './middlewares/validation'
-import './utils/cronUltils'
 import boardRouter from './routers/board'
 
 dotenv.config()

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
 import { IError } from '../../interfaces/error'
-import jwt from 'jsonwebtoken'
+import jwt, { Secret } from 'jsonwebtoken'
 import { sendActivationEmail } from '../../configs/email.ts'
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
@@ -25,15 +25,22 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
             } as IError)
         }
 
-        const activationCode = jwt.sign({ email }, process.env.JWT_SECRET as string);
+        const activationCode = jwt.sign({ email }, process.env.JWT_SECRET as Secret);
 
-        await User.create({
+        const newUser = await User.create({
             ...req.body,
             confirmPassword: undefined,
             activationCode
         })
 
         await sendActivationEmail(email, activationCode);
+
+        setTimeout(async () => {
+            const user = await User.findById(newUser._id);
+            if (user && !user.isActive) {
+                await User.findByIdAndDelete(newUser._id);
+            }
+        }, 24 * 60 * 60 * 1000);
 
         return res.status(200).json({
             status: 200,

@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import userRouter from './routers/auth'
 import workspaceRouter from './routers/workspace'
 import errorHandler from './middlewares/validation'
+import boardRouter from './routers/board'
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(cors())
 
 app.use('/api', userRouter)
 app.use('/api', workspaceRouter)
+app.use('/api', boardRouter)
 
 app.use(errorHandler)
 

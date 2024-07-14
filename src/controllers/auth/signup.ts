@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express'
 import User from '../../models/user'
 import { IUser } from '../../interfaces/user'
 import { IError } from '../../interfaces/error'
-import Workspace from '../../models/workspace'
 import jwt from 'jsonwebtoken'
 import { sendActivationEmail } from '../../configs/email.ts'
 
@@ -28,7 +27,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 
         const activationCode = jwt.sign({ email }, process.env.JWT_SECRET as string);
 
-        const newUser = await User.create({
+        await User.create({
             ...req.body,
             confirmPassword: undefined,
             activationCode
@@ -38,8 +37,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 
         return res.status(200).json({
             status: 200,
-            message: "Đăng kí thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
-            newUser
+            message: "Sign Up Success. Please check your email to activate your account.",
         });
     } catch (error) {
         next(error)

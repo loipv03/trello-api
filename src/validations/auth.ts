@@ -17,8 +17,7 @@ const siginupSchema = Joi.object({
         .required(),
     avatar: Joi.string()
         .uri()
-        .optional()
-        .allow(''),
+        .default(''),
     isActive: Joi.boolean().default(false),
 });
 

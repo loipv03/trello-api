@@ -8,18 +8,18 @@ import bcrypt from 'bcryptjs'
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password }: IUser = req.body
-        const user: IUser | null = await User.findOne({ email });
-        !user && next({ status: 404, message: "Tài khoản không tồn tại" } as IError)
+        const user: IUser | null = await User.findOne({ email, isActive: 'true' });
+        !user && next({ status: 404, message: "Account not found" } as IError)
 
         const isMatch = await bcrypt.compare(password, String(user?.password))
-        !isMatch && next({ status: 401, message: "Mật khẩu không đúng" } as IError)
+        !isMatch && next({ status: 401, message: "Incorrect password" } as IError)
 
         const token = generateToken(String(user?._id), '15m')
         const refreshToken = generateToken(String(user?._id), '7d')
 
         return res.status(200).json({
             status: 200,
-            message: "Đăng nhập thành công",
+            message: "Logged in successfully",
             access_token: token,
             refresh_Token: refreshToken
         })

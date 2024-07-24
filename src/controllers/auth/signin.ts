@@ -17,12 +17,21 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         const token = generateToken(String(user?._id), '15m')
         const refreshToken = generateToken(String(user?._id), '7d')
 
+        res.cookie('access_token', token, {
+            httpOnly: true,
+            sameSite: 'strict',
+        })
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true,
+            sameSite: 'strict',
+        })
+
         return res.status(200).json({
             status: 200,
             message: "Logged in successfully",
-            access_token: token,
-            refresh_Token: refreshToken
         })
+
+
     } catch (error) {
         next(error)
     }
